@@ -13,6 +13,11 @@ fun main() {
     println("my name is ${name + lastname}!") // 정확히 변수의 range를 명시할때에는 {} 써주자!
     println("this is 2\$") // 백슬래쉬를 쓰면 단순 문자로 취급할 수 있다.
 
+    forAndWhile()
+
+    nullcheck()
+
+    ignoreNulls("hello")
 }
 
 //1. 함수
@@ -77,6 +82,120 @@ fun checkNum(score : Int) {
     }
 }
 
+//Expression vs Statement
+/*
+Expression : 값을 만드는 문법들 (단 함수에 반환형이 없어도 Kotlin에서는 Unit을 return 하기에 모든 함수는 Expression이다.)
+             if문이나 when 문법이 statement가 될수도 expression이 될 수 있다. (java와 차이점)
+
+Statement : 그 외의 문법들
+ */
+
+// 5. Array and List
+
+// Array : 처음에 크기를 설정함.
+// List
+// 1. List : 수정이 불가능한 리스트
+// 2. MutableList : 수정이 가능한 리스트
+
+fun array(){
+    val array = arrayOf(1,2,3) // val을 쓰는이유 ? 주소값은 바뀌지않기에 val을 씀!! 단, 주소값을 바꿀때는 var을 사용해야함.
+    val list = listOf(1,2,3)
+
+    val array2 = arrayOf(1,"d",3.4f) // Any 타입으로 지정됨
+
+    array[0] = 3 // array는 기본적으로 mutable, 수정이 가능!
+
+    // list[0] = 3 list는 기본적으로 immutable 이다, 수정이 불가능
+    var result = list.get(0) // 값을 가져올수만 있다.
+
+    val arraylist = arrayListOf<Int>() //mutable
+    arraylist.add(10)
+    arraylist.add(20)
 
 
+}
 
+// 6. 반복문
+
+fun forAndWhile(){
+    val student = arrayListOf("joyce","james","jennie","jennifer")
+
+    for( name : String in student) {
+        println("${name}")
+    }
+
+
+    for((index, name) in student.withIndex()){
+        println("${index+1}번째 학생 : ${name}")
+    }
+    println()
+    println()
+
+    for((tempindx, name) in student.withIndex()){
+        println("${tempindx+1}번째 학생 : ${name}")
+    }
+
+
+    var sum = 0
+    for( i : Int in 1..10) {
+        sum += i
+    }
+    println(sum)
+    sum = 0
+    for( i : Int in 1..10 step 2) {
+        sum += 1
+    }
+    println(sum)
+
+    sum = 0
+    for( i : Int in 10 downTo 1) {
+        sum += 1
+    }
+    println(sum)
+
+    sum = 0
+    for( i : Int in 1 until 100) { // 1..100 과 다른것은 100을 포함하지 않음! (1 부터 99 까지)
+        sum += 1
+    }
+    println(sum)
+
+    var index = 0
+    while(index < 10){
+        println("current indx : ${index} ")
+        index++
+    }
+
+
+}
+
+// 7. Nullable , NonNull
+
+fun nullcheck() {
+    //NPE : NULL pointer Exception
+    // java는 npe를 런타임에서 잡으나, 코틀린은 컴파일때 잡을수 있게 개선하였다.
+
+    var name = "wihp" //NonNull type
+
+    var nullName : String? = null // nullable type -> null일 수도 있어! ,  물음표를 붙여주면 된다.
+
+    var nameInUpperCase : String = name.uppercase()
+
+    var nullNameInUpperCase : String? = nullName?.uppercase()// null일 경우 null을 반환
+
+    // ?:  엘비스 연산자
+
+    val lastName : String? = null
+
+    val fullName = name +" "+ (lastName?: "No lastName") //null일 경우 No lastName 을 출력해줌
+    println(fullName)
+}
+
+fun ignoreNulls(str : String?){
+   val mNotNull : String = str!! // !!은 절대 null이 아니야 일때 사용하는 연산자
+   val upper : String = mNotNull.uppercase()
+
+    val email : String? = "xxxx@gmail.com"
+    email?.let{ //email 이 null인 경우 println은 실행되지 않는다.
+        println("my email is ${email}")
+    }
+}
